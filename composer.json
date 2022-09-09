@@ -19,5 +19,12 @@
     "edmondscommerce/typesafe-functions": "dev-PHP8@dev",
     "ramsey/uuid-doctrine": "^1.6",
     "symfony/cache": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "LTS\\DsmRuntime\\": [
+        "src/"
+      ]
+    }
   }
 }
