@@ -6,8 +6,8 @@ namespace LTS\DsmRuntime;
 
 use Composer\Autoload\ClassLoader;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
-use LTS\DsmRuntime\CodeGeneration\TypeHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
+use LTS\DsmRuntime\Helper\TypeHelper;
 use LTS\DsmRuntime\Exception\ConfigException;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
 use Exception;

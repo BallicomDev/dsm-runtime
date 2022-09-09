@@ -15,6 +15,208 @@ use function ucfirst;
  */
 class RelationshipHelper
 {
+    public const PREFIX_OWNING         = 'Owning';
+    public const PREFIX_INVERSE        = 'Inverse';
+    public const PREFIX_UNIDIRECTIONAL = 'Unidirectional';
+    public const PREFIX_REQUIRED       = 'Required';
+
+
+    /*******************************************************************************************************************
+     * OneToOne - One instance of the current Entity refers to One instance of the referred Entity.
+     */
+    public const INTERNAL_TYPE_ONE_TO_ONE = 'OneToOne';
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntity/HasTemplateEntityOwningOneToOne.php
+     */
+    public const HAS_ONE_TO_ONE = self::PREFIX_OWNING . self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntity/HasRequiredTemplateEntityOwningOneToOne.php
+     */
+    public const HAS_REQUIRED_ONE_TO_ONE = self::PREFIX_REQUIRED . self::PREFIX_OWNING . self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntity/HasTemplateEntityInverseOneToOne.php
+     */
+    public const HAS_INVERSE_ONE_TO_ONE = self::PREFIX_INVERSE . self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntity/HasRequiredTemplateEntityInverseOneToOne.php
+     */
+    public const HAS_REQUIRED_INVERSE_ONE_TO_ONE = self::PREFIX_REQUIRED .
+                                                   self::PREFIX_INVERSE .
+                                                   self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntity/HasTemplateEntityUnidrectionalOneToOne.php
+     */
+    public const HAS_UNIDIRECTIONAL_ONE_TO_ONE = self::PREFIX_UNIDIRECTIONAL . self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntity/HasRequiredTemplateEntityUnidrectionalOneToOne.php
+     */
+    public const HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_ONE = self::PREFIX_REQUIRED .
+                                                          self::PREFIX_UNIDIRECTIONAL .
+                                                          self::INTERNAL_TYPE_ONE_TO_ONE;
+
+    /*******************************************************************************************************************
+     * OneToMany - One instance of the current Entity has Many instances (references) to the referred Entity.
+     */
+    public const INTERNAL_TYPE_ONE_TO_MANY = 'OneToMany';
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntities/HasTemplateEntitiesOneToMany.php
+     */
+    public const HAS_ONE_TO_MANY = self::INTERNAL_TYPE_ONE_TO_MANY;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntities/HasRequiredTemplateEntitiesOneToMany.php
+     */
+    public const HAS_REQUIRED_ONE_TO_MANY = self::PREFIX_REQUIRED . self::INTERNAL_TYPE_ONE_TO_MANY;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntities/HasTemplateEntitiesOneToMany.php
+     */
+    public const HAS_UNIDIRECTIONAL_ONE_TO_MANY = self::PREFIX_UNIDIRECTIONAL . self::INTERNAL_TYPE_ONE_TO_MANY;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntities/HasRequiredTemplateEntitiesOneToMany.php
+     */
+    public const HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_MANY = self::PREFIX_REQUIRED .
+                                                           self::PREFIX_UNIDIRECTIONAL .
+                                                           self::INTERNAL_TYPE_ONE_TO_MANY;
+
+    /*******************************************************************************************************************
+     * ManyToOne - Many instances of the current Entity refer to One instance of the referred Entity.
+     */
+    public const INTERNAL_TYPE_MANY_TO_ONE = 'ManyToOne';
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntity/HasTemplateEntityManyToOne.php
+     */
+    public const HAS_MANY_TO_ONE = self::INTERNAL_TYPE_MANY_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntity/HasRequiredTemplateEntityManyToOne.php
+     */
+    public const HAS_REQUIRED_MANY_TO_ONE = self::PREFIX_REQUIRED . self::INTERNAL_TYPE_MANY_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntity/HasTemplateEntityManyToOne.php
+     */
+    public const HAS_UNIDIRECTIONAL_MANY_TO_ONE = self::PREFIX_UNIDIRECTIONAL . self::INTERNAL_TYPE_MANY_TO_ONE;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntity/HasRequiredTemplateEntityManyToOne.php
+     */
+    public const HAS_REQUIRED_UNIDIRECTIONAL_MANY_TO_ONE = self::PREFIX_REQUIRED .
+                                                           self::PREFIX_UNIDIRECTIONAL .
+                                                           self::INTERNAL_TYPE_MANY_TO_ONE;
+
+
+    /*******************************************************************************************************************
+     * ManyToMany - Many instances of the current Entity refer to Many instance of the referred Entity.
+     */
+    public const INTERNAL_TYPE_MANY_TO_MANY = 'ManyToMany';
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntities/HasTemplateEntitiesOwningManyToMany.php
+     */
+    public const HAS_MANY_TO_MANY = self::PREFIX_OWNING . self::INTERNAL_TYPE_MANY_TO_MANY;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntities/HasRequiredTemplateEntitiesOwningManyToMany.php
+     */
+    public const HAS_REQUIRED_MANY_TO_MANY = self::PREFIX_REQUIRED .
+                                             self::PREFIX_OWNING .
+                                             self::INTERNAL_TYPE_MANY_TO_MANY;
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasTemplateEntities/HasTemplateEntitiesInverseManyToMany.php
+     */
+    public const HAS_INVERSE_MANY_TO_MANY = self::PREFIX_INVERSE . self::INTERNAL_TYPE_MANY_TO_MANY;
+
+    /**
+     * @see codeTemplates/src/Entities/Traits/Relations/TemplateEntity/HasRequiredTemplateEntities/HasRequiredTemplateEntitiesInverseManyToMany.php
+     */
+    public const HAS_REQUIRED_INVERSE_MANY_TO_MANY = self::PREFIX_REQUIRED .
+                                                     self::PREFIX_INVERSE .
+                                                     self::INTERNAL_TYPE_MANY_TO_MANY;
+
+
+    /**
+     * The full list of possible relation types
+     */
+    public const HAS_TYPES = [
+        self::HAS_ONE_TO_ONE,
+        self::HAS_INVERSE_ONE_TO_ONE,
+        self::HAS_UNIDIRECTIONAL_ONE_TO_ONE,
+        self::HAS_ONE_TO_MANY,
+        self::HAS_UNIDIRECTIONAL_ONE_TO_MANY,
+        self::HAS_MANY_TO_ONE,
+        self::HAS_UNIDIRECTIONAL_MANY_TO_ONE,
+        self::HAS_MANY_TO_MANY,
+        self::HAS_INVERSE_MANY_TO_MANY,
+
+        self::HAS_REQUIRED_ONE_TO_ONE,
+        self::HAS_REQUIRED_INVERSE_ONE_TO_ONE,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_ONE,
+        self::HAS_REQUIRED_ONE_TO_MANY,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_MANY,
+        self::HAS_REQUIRED_MANY_TO_ONE,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_MANY_TO_ONE,
+        self::HAS_REQUIRED_MANY_TO_MANY,
+        self::HAS_REQUIRED_INVERSE_MANY_TO_MANY,
+    ];
+
+    /**
+     * Of the full list, which ones will be automatically reciprocated in the generated code
+     */
+    public const HAS_TYPES_RECIPROCATED = [
+        self::HAS_ONE_TO_ONE,
+        self::HAS_INVERSE_ONE_TO_ONE,
+        self::HAS_ONE_TO_MANY,
+        self::HAS_MANY_TO_ONE,
+        self::HAS_MANY_TO_MANY,
+        self::HAS_INVERSE_MANY_TO_MANY,
+
+        self::HAS_REQUIRED_ONE_TO_ONE,
+        self::HAS_REQUIRED_INVERSE_ONE_TO_ONE,
+        self::HAS_REQUIRED_ONE_TO_MANY,
+        self::HAS_REQUIRED_MANY_TO_ONE,
+        self::HAS_REQUIRED_MANY_TO_MANY,
+        self::HAS_REQUIRED_INVERSE_MANY_TO_MANY,
+    ];
+
+    /**
+     *Of the full list, which ones are unidirectional (i.e not reciprocated)
+     */
+    public const HAS_TYPES_UNIDIRECTIONAL = [
+        self::HAS_UNIDIRECTIONAL_MANY_TO_ONE,
+        self::HAS_UNIDIRECTIONAL_ONE_TO_MANY,
+        self::HAS_UNIDIRECTIONAL_ONE_TO_ONE,
+
+        self::HAS_REQUIRED_UNIDIRECTIONAL_MANY_TO_ONE,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_MANY,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_ONE,
+    ];
+
+    /**
+     * Of the full list, which ones are a plural relationship, i.e they have multiple of the related entity
+     */
+    public const HAS_TYPES_PLURAL = [
+        self::HAS_MANY_TO_MANY,
+        self::HAS_INVERSE_MANY_TO_MANY,
+        self::HAS_ONE_TO_MANY,
+        self::HAS_UNIDIRECTIONAL_ONE_TO_MANY,
+
+        self::HAS_REQUIRED_MANY_TO_MANY,
+        self::HAS_REQUIRED_INVERSE_MANY_TO_MANY,
+        self::HAS_REQUIRED_ONE_TO_MANY,
+        self::HAS_REQUIRED_UNIDIRECTIONAL_ONE_TO_MANY,
+    ];
+
+
     /**
      * Use this to get the getter for the property, can be used with all relations
      *

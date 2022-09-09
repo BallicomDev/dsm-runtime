@@ -7,10 +7,10 @@ namespace LTS\DsmRuntime;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use LTS\DsmRuntime\CodeGeneration\Generator\AbstractGenerator;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
-use LTS\DsmRuntime\CodeGeneration\ReflectionHelper;
-use LTS\DsmRuntime\CodeGeneration\TypeHelper;
+use LTS\DsmRuntime\Helper\Generator\AbstractGenerator;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
+use LTS\DsmRuntime\Helper\ReflectionHelper;
+use LTS\DsmRuntime\Helper\TypeHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta\RequiredRelation;
 use LTS\DsmRuntime\Entity\Interfaces\UsesPHPMetaDataInterface;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
@@ -33,8 +33,12 @@ use function trim;
  */
 class DoctrineStaticMeta
 {
-    public const DSM_INIT_METHOD_PREFIX = 'dsmInit';
-    public const ENTITIES_FOLDER_NAME   = 'Entities';
+    public const DSM_INIT_METHOD_PREFIX        = 'dsmInit';
+    public const ENTITIES_FOLDER_NAME          = 'Entities';
+    public const ENTITY_FACTORIES_NAMESPACE    = '\\Entity\\Factories';
+    public const ENTITY_REPOSITORIES_NAMESPACE = '\\Entity\\Repositories';
+    public const ENTITY_RELATIONS_NAMESPACE    = '\\Entity\\Relations';
+    public const DEFAULT_SRC_SUBFOLDER         = 'src';
 
     private static null|NamespaceHelper  $namespaceHelper  = null;
     private static null|ReflectionHelper $reflectionHelper = null;

@@ -6,7 +6,7 @@ namespace LTS\DsmRuntime\Entity\Testing\Fixtures;
 
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\EntityManagerInterface;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Savers\EntitySaverFactory;
 use LTS\DsmRuntime\Entity\Testing\EntityGenerator\TestEntityGeneratorFactory;
 use LTS\DsmRuntime\Schema\Database;

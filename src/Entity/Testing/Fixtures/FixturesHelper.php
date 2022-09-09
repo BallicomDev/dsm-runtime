@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\ORM\EntityManagerInterface;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Savers\EntitySaverFactory;
 use LTS\DsmRuntime\Entity\Testing\EntityGenerator\TestEntityGeneratorFactory;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
@@ -186,15 +186,15 @@ class FixturesHelper
 
     public function run(): void
     {
-        $cacheKey   = $this->getCacheKey();
+//        $cacheKey   = $this->getCacheKey();
         $connection = $this->entityManager->getConnection();
-        if ($this->loadFromCache && $this->cache->contains($cacheKey)) {
-            $logger = $this->cache->fetch($cacheKey);
-            $logger->run($this->entityManager->getConnection());
-            $this->loadedFromCache = true;
-
-            return;
-        }
+//        if ($this->loadFromCache && $this->cache->contains($cacheKey)) {
+//            $logger = $this->cache->fetch($cacheKey);
+//            $logger->run($this->entityManager->getConnection());
+//            $this->loadedFromCache = true;
+//
+//            return;
+//        }
 
         $logger              = $this->getLogger();
         $connectionLogger    = $connection->getConfiguration()->getSQLLogger();
@@ -208,22 +208,22 @@ class FixturesHelper
         $this->entityManager->getConfiguration()->setSQLLogger($configurationLogger);
         $connection->getConfiguration()->setSQLLogger($connectionLogger);
 
-        $this->cache->save($cacheKey, $logger);
+//        $this->cache->save($cacheKey, $logger);
     }
 
-    private function getCacheKey(): string
-    {
-        if (null !== $this->cacheKey) {
-            return $this->cacheKey;
-        }
-
-        $fixtureFqns = [];
-        foreach ($this->fixtureLoader->getFixtures() as $fixture) {
-            $fixtureFqns[] = get_class($fixture);
-        }
-
-        return md5(print_r($fixtureFqns, true));
-    }
+//    private function getCacheKey(): string
+//    {
+//        if (null !== $this->cacheKey) {
+//            return $this->cacheKey;
+//        }
+//
+//        $fixtureFqns = [];
+//        foreach ($this->fixtureLoader->getFixtures() as $fixture) {
+//            $fixtureFqns[] = get_class($fixture);
+//        }
+//
+//        return md5(print_r($fixtureFqns, true));
+//    }
 
     private function getLogger(): SQLLogger
     {

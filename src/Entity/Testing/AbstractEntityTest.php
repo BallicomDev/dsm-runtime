@@ -10,8 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Tools\SchemaValidator;
 use Doctrine\ORM\Utility\PersisterHelper;
-use LTS\DsmRuntime\CodeGeneration\CodeHelper;
-use LTS\DsmRuntime\CodeGeneration\Generator\RelationsGenerator;
+use LTS\DsmRuntime\RelationshipHelper;
 use LTS\DsmRuntime\Config;
 use LTS\DsmRuntime\ConfigInterface;
 use LTS\DsmRuntime\Entity\DataTransferObjects\DtoFactory;
@@ -340,7 +339,7 @@ abstract class AbstractEntityTest extends TestCase implements EntityTestInterfac
         $getters = $entity::getDoctrineStaticMeta()->getGetters();
         self::assertNotEmpty($getters);
         foreach ($getters as $getter) {
-            self::assertRegExp('%^(get|is|has).+%', $getter);
+            self::assertMatchesRegularExpression('%^(get|is|has).+%', $getter);
         }
     }
 
@@ -357,7 +356,7 @@ abstract class AbstractEntityTest extends TestCase implements EntityTestInterfac
         $setters = $entity::getDoctrineStaticMeta()->getSetters();
         self::assertNotEmpty($setters);
         foreach ($setters as $setter) {
-            self::assertRegExp('%^(set|add).+%', $setter);
+            self::assertMatchesRegularExpression('%^(set|add).+%', $setter);
         }
     }
 
@@ -447,10 +446,23 @@ abstract class AbstractEntityTest extends TestCase implements EntityTestInterfac
         return static::$container->get(DtoFactory::class);
     }
 
+    private function getGetterMethodNameForBoolean(string $fieldName): string
+    {
+        if (0 === stripos($fieldName, 'is')) {
+            return lcfirst($fieldName);
+        }
+
+        if (0 === stripos($fieldName, 'has')) {
+            return lcfirst($fieldName);
+        }
+
+        return 'is' . ucfirst($fieldName);
+    }
+
     protected function getGetterNameForField(string $fieldName, string $type): string
     {
         if ($type === 'boolean') {
-            return static::$container->get(CodeHelper::class)->getGetterMethodNameForBoolean($fieldName);
+            return $this->getGetterMethodNameForBoolean($fieldName);
         }
 
         return 'get' . $fieldName;
@@ -514,12 +526,12 @@ abstract class AbstractEntityTest extends TestCase implements EntityTestInterfac
                                                               ->getReflectionClass()
                                                               ->getTraits();
         $unidirectionalTraitShortNamePrefixes = [
-            'Has' . $associationFqn::getDoctrineStaticMeta()->getSingular() . RelationsGenerator::PREFIX_UNIDIRECTIONAL,
-            'Has' . $associationFqn::getDoctrineStaticMeta()->getPlural() . RelationsGenerator::PREFIX_UNIDIRECTIONAL,
-            'Has' . RelationsGenerator::PREFIX_REQUIRED .
-            $associationFqn::getDoctrineStaticMeta()->getSingular() . RelationsGenerator::PREFIX_UNIDIRECTIONAL,
-            'Has' . RelationsGenerator::PREFIX_REQUIRED .
-            $associationFqn::getDoctrineStaticMeta()->getPlural() . RelationsGenerator::PREFIX_UNIDIRECTIONAL,
+            'Has' . $associationFqn::getDoctrineStaticMeta()->getSingular() . RelationshipHelper::PREFIX_UNIDIRECTIONAL,
+            'Has' . $associationFqn::getDoctrineStaticMeta()->getPlural() . RelationshipHelper::PREFIX_UNIDIRECTIONAL,
+            'Has' . RelationshipHelper::PREFIX_REQUIRED .
+            $associationFqn::getDoctrineStaticMeta()->getSingular() . RelationshipHelper::PREFIX_UNIDIRECTIONAL,
+            'Has' . RelationshipHelper::PREFIX_REQUIRED .
+            $associationFqn::getDoctrineStaticMeta()->getPlural() . RelationshipHelper::PREFIX_UNIDIRECTIONAL,
         ];
         foreach ($classTraits as $trait) {
             foreach ($unidirectionalTraitShortNamePrefixes as $namePrefix) {

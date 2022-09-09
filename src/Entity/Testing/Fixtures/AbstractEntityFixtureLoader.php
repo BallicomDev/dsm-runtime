@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Interfaces\EntityInterface;
 use LTS\DsmRuntime\Entity\Savers\EntitySaverFactory;
 use LTS\DsmRuntime\Entity\Savers\EntitySaverInterface;

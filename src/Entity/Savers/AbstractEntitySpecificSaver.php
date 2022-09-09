@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LTS\DsmRuntime\Entity\Savers;
 
 use Doctrine\ORM\EntityManagerInterface;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Interfaces\EntityInterface;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
 use ReflectionException;

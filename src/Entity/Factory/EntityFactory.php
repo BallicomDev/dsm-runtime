@@ -7,7 +7,7 @@ namespace LTS\DsmRuntime\Entity\Factory;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\NotifyPropertyChanged;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta;
 use LTS\DsmRuntime\Entity\DataTransferObjects\DtoFactory;
 use LTS\DsmRuntime\Entity\Fields\Interfaces\PrimaryKey\IdFieldInterface;

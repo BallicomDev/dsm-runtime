@@ -8,7 +8,7 @@ use Closure;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\MappingException;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta;
 use LTS\DsmRuntime\Entity\Interfaces\DataTransferObjectInterface;
 use LTS\DsmRuntime\Entity\Testing\EntityGenerator\Faker\ColumnTypeGuesser;

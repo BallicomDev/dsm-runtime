@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LTS\DsmRuntime\Entity\Repositories;
 
 use Doctrine\ORM\EntityManagerInterface;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Factory\EntityFactory;
 use LTS\DsmRuntime\Entity\Factory\EntityFactoryInterface;
 

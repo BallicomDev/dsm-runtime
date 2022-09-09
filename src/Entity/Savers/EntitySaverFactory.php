@@ -6,7 +6,7 @@ namespace LTS\DsmRuntime\Entity\Savers;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Proxy\Proxy;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Interfaces\EntityInterface;
 
 use function get_class;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LTS\DsmRuntime\Entity\DataTransferObjects;
 
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta;
 use LTS\DsmRuntime\Entity\Fields\Factories\UuidFactory;
 use LTS\DsmRuntime\Entity\Fields\Interfaces\PrimaryKey\UuidPrimaryKeyInterface;

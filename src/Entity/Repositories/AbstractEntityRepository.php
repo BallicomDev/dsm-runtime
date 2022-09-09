@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\Entity\Factory\EntityFactoryInterface;
 use LTS\DsmRuntime\Entity\Interfaces\EntityInterface;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;

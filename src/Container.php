@@ -11,75 +11,9 @@ use Doctrine\Common\Cache\Psr6\DoctrineProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\SchemaValidator;
-use LTS\DsmRuntime\Builder\Builder;
-use LTS\DsmRuntime\CodeGeneration\Action\CreateConstraintAction;
-use LTS\DsmRuntime\CodeGeneration\Action\CreateDbalFieldAndInterfaceAction;
-use LTS\DsmRuntime\CodeGeneration\Action\CreateDtosForAllEntitiesAction;
-use LTS\DsmRuntime\CodeGeneration\Action\CreateEmbeddableAction;
-use LTS\DsmRuntime\CodeGeneration\Action\CreateEntityAction;
-use LTS\DsmRuntime\CodeGeneration\CodeHelper;
-use LTS\DsmRuntime\CodeGeneration\Command\CliConfigCommandFactory;
-use LTS\DsmRuntime\CodeGeneration\Command\CreateConstraintCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\FinaliseBuildCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\GenerateEmbeddableFromArchetypeCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\GenerateEmbeddableSkeletonCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\GenerateEntityCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\GenerateFieldCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\GenerateRelationsCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\OverrideCreateCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\OverridesUpdateCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\RemoveUnusedRelationsCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\SetEmbeddableCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\SetFieldCommand;
-use LTS\DsmRuntime\CodeGeneration\Command\SetRelationCommand;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entities\EntityCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\DataTransferObjects\DtoCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Embeddable\FakerData\EmbeddableFakerDataCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Embeddable\Interfaces\HasEmbeddableInterfaceCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Embeddable\Interfaces\Objects\EmbeddableInterfaceCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Embeddable\Objects\EmbeddableCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Embeddable\Traits\HasEmbeddableTraitCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Factories\AbstractEntityFactoryCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Factories\EntityDtoFactoryCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Factories\EntityFactoryCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Fields\Interfaces\FieldInterfaceCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Fields\Traits\FieldTraitCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Interfaces\EntityInterfaceCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Repositories\AbstractEntityRepositoryCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Repositories\EntityRepositoryCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Savers\EntitySaverCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Savers\EntityUnitOfWorkHelperCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Entity\Savers\EntityUpserterCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Validation\Constraints\EntityIsValidConstraintCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Validation\Constraints\EntityIsValidConstraintValidatorCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Validation\Constraints\PropertyConstraintCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Src\Validation\Constraints\PropertyConstraintValidatorCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Tests\Assets\Entity\Fixtures\EntityFixtureCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Tests\BootstrapCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Tests\Entities\AbstractEntityTestCreator;
-use LTS\DsmRuntime\CodeGeneration\Creation\Tests\Entities\EntityTestCreator;
-use LTS\DsmRuntime\CodeGeneration\Filesystem\Factory\FileFactory;
-use LTS\DsmRuntime\CodeGeneration\Filesystem\Factory\FindReplaceFactory;
-use LTS\DsmRuntime\CodeGeneration\Filesystem\File\Writer;
-use LTS\DsmRuntime\CodeGeneration\Generator\Embeddable\ArchetypeEmbeddableGenerator;
-use LTS\DsmRuntime\CodeGeneration\Generator\Embeddable\EntityEmbeddableSetter;
-use LTS\DsmRuntime\CodeGeneration\Generator\EntityGenerator;
-use LTS\DsmRuntime\CodeGeneration\Generator\Field\AbstractTestFakerDataProviderUpdater;
-use LTS\DsmRuntime\CodeGeneration\Generator\Field\EntityFieldSetter;
-use LTS\DsmRuntime\CodeGeneration\Generator\Field\FieldGenerator;
-use LTS\DsmRuntime\CodeGeneration\Generator\Field\IdTrait;
-use LTS\DsmRuntime\CodeGeneration\Generator\Field\StandardLibraryTestGenerator;
-use LTS\DsmRuntime\CodeGeneration\Generator\FileCreationTransaction;
-use LTS\DsmRuntime\CodeGeneration\Generator\FindAndReplaceHelper;
-use LTS\DsmRuntime\CodeGeneration\Generator\RelationsGenerator;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
-use LTS\DsmRuntime\CodeGeneration\PathHelper;
-use LTS\DsmRuntime\CodeGeneration\PostProcessor\CopyPhpstormMeta;
-use LTS\DsmRuntime\CodeGeneration\PostProcessor\EntityFormatter;
-use LTS\DsmRuntime\CodeGeneration\PostProcessor\FileOverrider;
-use LTS\DsmRuntime\CodeGeneration\ReflectionHelper;
-use LTS\DsmRuntime\CodeGeneration\TypeHelper;
-use LTS\DsmRuntime\CodeGeneration\UnusedRelationsRemover;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
+use LTS\DsmRuntime\Helper\ReflectionHelper;
+use LTS\DsmRuntime\Helper\TypeHelper;
 use LTS\DsmRuntime\Entity\DataTransferObjects\DtoFactory;
 use LTS\DsmRuntime\Entity\Factory\EntityDependencyInjector;
 use LTS\DsmRuntime\Entity\Factory\EntityFactory;
@@ -104,8 +38,7 @@ use LTS\DsmRuntime\Schema\Database;
 use LTS\DsmRuntime\Schema\MysqliConnectionFactory;
 use LTS\DsmRuntime\Schema\Schema;
 use LTS\DsmRuntime\Schema\UuidFunctionPolyfill;
-use LTS\DsmRuntime\Tests\Assets\TestCodeGenerator;
-use ProjectServiceContainer;
+#use ProjectServiceContainer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -153,115 +86,37 @@ class Container implements ContainerInterface
      */
     public const SERVICES = [
         \Ramsey\Uuid\UuidFactory::class,
-        AbstractEntityFactoryCreator::class,
-        AbstractEntityRepositoryCreator::class,
-        AbstractEntityTestCreator::class,
-        AbstractTestFakerDataProviderUpdater::class,
-        ArchetypeEmbeddableGenerator::class,
-        //        ArrayCache::class,
-        BootstrapCreator::class,
-        Builder::class,
         BulkEntitySaver::class,
         BulkEntityUpdater::class,
         BulkSimpleEntityCreator::class,
-        CliConfigCommandFactory::class,
-        CodeHelper::class,
         Config::class,
         ContainerConstraintValidatorFactory::class,
-        CopyPhpstormMeta::class,
-        CreateConstraintAction::class,
-        CreateConstraintCommand::class,
-        CreateDtosForAllEntitiesAction::class,
-        CreateEmbeddableAction::class,
-        CreateEntityAction::class,
         Database::class,
-        //        DiffCommand::class,
-        //        DoctrineCache::class,
-        DtoCreator::class,
         DtoFactory::class,
-        EmbeddableCreator::class,
-        EmbeddableFakerDataCreator::class,
-        EmbeddableInterfaceCreator::class,
-        EntityCreator::class,
         EntityDataValidator::class,
         EntityDataValidatorFactory::class,
         EntityDependencyInjector::class,
-        EntityDtoFactoryCreator::class,
-        EntityEmbeddableSetter::class,
         EntityFactory::class,
-        EntityFactoryCreator::class,
-        EntityFieldSetter::class,
-        EntityFixtureCreator::class,
-        EntityFormatter::class,
-        EntityGenerator::class,
-        EntityInterfaceCreator::class,
-        EntityIsValidConstraintCreator::class,
-        EntityIsValidConstraintValidatorCreator::class,
         EntityManagerFactory::class,
         EntityManagerInterface::class,
-        EntityRepositoryCreator::class,
         EntitySaver::class,
-        EntitySaverCreator::class,
         EntitySaverFactory::class,
-        EntityTestCreator::class,
-        EntityUnitOfWorkHelperCreator::class,
-        EntityUpserterCreator::class,
-        //        ExecuteCommand::class,
         FakerDataFillerFactory::class,
-        FieldGenerator::class,
-        FileCreationTransaction::class,
-        FileFactory::class,
-        FileOverrider::class,
         Filesystem::class,
-        //        FilesystemCache::class,
-        FinaliseBuildCommand::class,
-        FindAndReplaceHelper::class,
-        FindReplaceFactory::class,
-        CreateDbalFieldAndInterfaceAction::class,
-        FieldTraitCreator::class,
-        FieldInterfaceCreator::class,
         Finder::class,
         FixturesHelperFactory::class,
-        //        GenerateCommand::class,
-        GenerateEmbeddableFromArchetypeCommand::class,
-        GenerateEmbeddableSkeletonCommand::class,
-        GenerateEntityCommand::class,
-        GenerateFieldCommand::class,
-        GenerateRelationsCommand::class,
-        HasEmbeddableInterfaceCreator::class,
-        HasEmbeddableTraitCreator::class,
-        IdTrait::class,
-        //        LatestCommand::class,
-        //        MigrateCommand::class,
         MysqliConnectionFactory::class,
         NamespaceHelper::class,
-        OverrideCreateCommand::class,
-        OverridesUpdateCommand::class,
-        PathHelper::class,
-        PropertyConstraintCreator::class,
-        PropertyConstraintValidatorCreator::class,
         ReflectionHelper::class,
-        RelationsGenerator::class,
         RelationshipHelper::class,
-        RemoveUnusedRelationsCommand::class,
         RepositoryFactory::class,
         Schema::class,
         SchemaTool::class,
         SchemaValidator::class,
-        SetEmbeddableCommand::class,
-        SetFieldCommand::class,
-        SetRelationCommand::class,
-        StandardLibraryTestGenerator::class,
-        //        StatusCommand::class,
-        TestCodeGenerator::class,
         TestEntityGeneratorFactory::class,
         TypeHelper::class,
-        UnusedRelationsRemover::class,
-        //        UpToDateCommand::class,
         UuidFactory::class,
         UuidFunctionPolyfill::class,
-        //        VersionCommand::class,
-        Writer::class,
         Initialiser::class,
         DoctrineProvider::class,
         ArrayAdapter::class,

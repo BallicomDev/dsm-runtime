@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LTS\DsmRuntime\CodeGeneration;
+namespace LTS\DsmRuntime\Helper;
 
 use Doctrine\Common\Collections\Collection;
 use LTS\DsmRuntime\MappingHelper;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace LTS\DsmRuntime\CodeGeneration;
+namespace LTS\DsmRuntime\Helper;
 
-use LTS\DsmRuntime\CodeGeneration\Generator\AbstractGenerator;
+use LTS\DsmRuntime\DoctrineStaticMeta;
 use ReflectionException;
 use RuntimeException;
 use ts\Reflection\ReflectionClass;
@@ -51,7 +51,7 @@ final class ReflectionHelper
         return $this->namespaceHelper->tidy(
             $this->namespaceHelper->getNamespaceRootToDirectoryFromFqn(
                 $entityReflection->getName(),
-                AbstractGenerator::ENTITIES_FOLDER_NAME
+                DoctrineStaticMeta::ENTITIES_FOLDER_NAME
             )
         );
     }

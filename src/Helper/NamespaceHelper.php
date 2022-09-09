@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace LTS\DsmRuntime\CodeGeneration;
+namespace LTS\DsmRuntime\Helper;
 
-use LTS\DsmRuntime\CodeGeneration\Command\AbstractCommand;
-use LTS\DsmRuntime\CodeGeneration\Generator\AbstractGenerator;
-use LTS\DsmRuntime\CodeGeneration\Generator\RelationsGenerator;
 use LTS\DsmRuntime\Config;
+use LTS\DsmRuntime\DoctrineStaticMeta;
 use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
 use LTS\DsmRuntime\MappingHelper;
+use LTS\DsmRuntime\RelationshipHelper;
 use Exception;
 use RuntimeException;
 use SplFileInfo;
@@ -29,7 +28,7 @@ use function ucfirst;
  *
  * Pure functions for working with namespaces and to calculate namespaces
  *
- * @package LTS\DsmRuntime\CodeGeneration
+ * @package LTS\DsmRuntime\Helper
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -290,9 +289,9 @@ class NamespaceHelper
                 $entityFqn,
                 strrpos(
                     $entityFqn,
-                    '\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\'
+                    '\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\'
                 )
-                + strlen('\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\')
+                + strlen('\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\')
             )
         );
     }
@@ -309,7 +308,7 @@ class NamespaceHelper
     ): string {
         $this->assertNotCompound($entityFqn);
         $traitsNamespace = $this->getProjectNamespaceRootFromEntityFqn($entityFqn)
-                           . AbstractGenerator::ENTITY_RELATIONS_NAMESPACE
+                           . DoctrineStaticMeta::ENTITY_RELATIONS_NAMESPACE
                            . '\\' . $this->getEntitySubNamespace($entityFqn)
                            . '\\Traits';
 
@@ -335,7 +334,7 @@ class NamespaceHelper
                 0,
                 strrpos(
                     $entityFqn,
-                    '\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\'
+                    '\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\'
                 )
             )
         );
@@ -369,7 +368,7 @@ class NamespaceHelper
     ): string {
         $this->assertNotCompound($entityFqn);
         $interfacesNamespace = $this->getProjectNamespaceRootFromEntityFqn($entityFqn)
-                               . AbstractGenerator::ENTITY_RELATIONS_NAMESPACE
+                               . DoctrineStaticMeta::ENTITY_RELATIONS_NAMESPACE
                                . '\\' . $this->getEntitySubNamespace($entityFqn)
                                . '\\Interfaces';
 
@@ -414,10 +413,10 @@ class NamespaceHelper
      * @throws DoctrineStaticMetaException
      */
     public function getOwningTraitFqn(
-        string $hasType,
-        string $ownedEntityFqn,
+        string  $hasType,
+        string  $ownedEntityFqn,
         ?string $projectRootNamespace = null,
-        string $srcFolder = AbstractCommand::DEFAULT_SRC_SUBFOLDER
+        string  $srcFolder = DoctrineStaticMeta::DEFAULT_SRC_SUBFOLDER
     ): string {
         $this->assertNotCompound($ownedEntityFqn);
         try {
@@ -435,8 +434,8 @@ class NamespaceHelper
                 $projectRootNamespace,
                 $traitSubDirectories
             );
-            $required            = \ts\stringContains($hasType, RelationsGenerator::PREFIX_REQUIRED)
-                ? RelationsGenerator::PREFIX_REQUIRED
+            $required            = \ts\stringContains($hasType, RelationshipHelper::PREFIX_REQUIRED)
+                ? RelationshipHelper::PREFIX_REQUIRED
                 : '';
             $owningTraitFqn      .= $ownedClassName . '\\Traits\\Has' . $required . $ownedHasName
                                     . '\\' . $this->getBaseHasTypeTraitFqn($ownedHasName, $hasType);
@@ -480,11 +479,11 @@ class NamespaceHelper
         $subDirectories = $parsedFqn[2];
 
         if (
-        in_array(
-            $hasType,
-            RelationsGenerator::HAS_TYPES_PLURAL,
-            true
-        )
+            in_array(
+                $hasType,
+                RelationshipHelper::HAS_TYPES_PLURAL,
+                true
+            )
         ) {
             return $this->getPluralNamespacedName($ownedEntityFqn, $subDirectories);
         }
@@ -509,7 +508,7 @@ class NamespaceHelper
      */
     public function parseFullyQualifiedName(
         string $fqn,
-        string $srcOrTestSubFolder = AbstractCommand::DEFAULT_SRC_SUBFOLDER,
+        string $srcOrTestSubFolder = DoctrineStaticMeta::DEFAULT_SRC_SUBFOLDER,
         string $projectRootNamespace = null
     ): array {
         $this->assertNotCompound($fqn);
@@ -667,11 +666,11 @@ class NamespaceHelper
      */
     public function getOwningRelationsRootFqn(
         string $projectRootNamespace,
-        array $subDirectories
+        array  $subDirectories
     ): string {
         $this->assertNotCompound($projectRootNamespace);
         $relationsRootFqn = $projectRootNamespace
-                            . AbstractGenerator::ENTITY_RELATIONS_NAMESPACE . '\\';
+                            . DoctrineStaticMeta::ENTITY_RELATIONS_NAMESPACE . '\\';
         if (count($subDirectories) > 0) {
             $relationsRootFqn .= implode('\\', $subDirectories) . '\\';
         }
@@ -694,15 +693,15 @@ class NamespaceHelper
         string $ownedHasName,
         string $hasType
     ): string {
-        $required = \ts\stringContains($hasType, RelationsGenerator::PREFIX_REQUIRED)
-            ? RelationsGenerator::PREFIX_REQUIRED
+        $required = \ts\stringContains($hasType, RelationshipHelper::PREFIX_REQUIRED)
+            ? RelationshipHelper::PREFIX_REQUIRED
             : '';
 
-        $hasType = str_replace(RelationsGenerator::PREFIX_REQUIRED, '', $hasType);
+        $hasType = str_replace(RelationshipHelper::PREFIX_REQUIRED, '', $hasType);
         foreach (
             [
-                RelationsGenerator::INTERNAL_TYPE_MANY_TO_MANY,
-                RelationsGenerator::INTERNAL_TYPE_ONE_TO_ONE,
+                RelationshipHelper::INTERNAL_TYPE_MANY_TO_MANY,
+                RelationshipHelper::INTERNAL_TYPE_ONE_TO_ONE,
             ] as $noStrip
         ) {
             if (\ts\stringContains($hasType, $noStrip)) {
@@ -712,15 +711,15 @@ class NamespaceHelper
 
         foreach (
             [
-                RelationsGenerator::INTERNAL_TYPE_ONE_TO_MANY,
-                RelationsGenerator::INTERNAL_TYPE_MANY_TO_ONE,
+                RelationshipHelper::INTERNAL_TYPE_ONE_TO_MANY,
+                RelationshipHelper::INTERNAL_TYPE_MANY_TO_ONE,
             ] as $stripAll
         ) {
             if (\ts\stringContains($hasType, $stripAll)) {
                 return str_replace(
                     [
-                        RelationsGenerator::PREFIX_OWNING,
-                        RelationsGenerator::PREFIX_INVERSE,
+                        RelationshipHelper::PREFIX_OWNING,
+                        RelationshipHelper::PREFIX_INVERSE,
                     ],
                     '',
                     'Has' . $required . $ownedHasName . $hasType
@@ -730,7 +729,7 @@ class NamespaceHelper
 
         return str_replace(
             [
-                RelationsGenerator::PREFIX_INVERSE,
+                RelationshipHelper::PREFIX_INVERSE,
             ],
             '',
             'Has' . $required . $ownedHasName . $hasType
@@ -743,8 +742,8 @@ class NamespaceHelper
 
         return $this->tidy(
             str_replace(
-                '\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\',
-                '\\' . AbstractGenerator::ENTITY_FACTORIES_NAMESPACE . '\\',
+                '\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\',
+                '\\' . DoctrineStaticMeta::ENTITY_FACTORIES_NAMESPACE . '\\',
                 $entityFqn
             ) . 'Factory'
         );
@@ -756,8 +755,8 @@ class NamespaceHelper
 
         return $this->tidy(
             str_replace(
-                '\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\',
-                '\\' . AbstractGenerator::ENTITY_FACTORIES_NAMESPACE . '\\',
+                '\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\',
+                '\\' . DoctrineStaticMeta::ENTITY_FACTORIES_NAMESPACE . '\\',
                 $entityFqn
             ) . 'DtoFactory'
         );
@@ -769,8 +768,8 @@ class NamespaceHelper
 
         return $this->tidy(
             str_replace(
-                '\\' . AbstractGenerator::ENTITIES_FOLDER_NAME . '\\',
-                '\\' . AbstractGenerator::ENTITY_REPOSITORIES_NAMESPACE . '\\',
+                '\\' . DoctrineStaticMeta::ENTITIES_FOLDER_NAME . '\\',
+                '\\' . DoctrineStaticMeta::ENTITY_REPOSITORIES_NAMESPACE . '\\',
                 $entityFqn
             ) . 'Repository'
         );
@@ -816,7 +815,7 @@ class NamespaceHelper
         string $hasType,
         string $ownedEntityFqn,
         string $projectRootNamespace = null,
-        string $srcFolder = AbstractCommand::DEFAULT_SRC_SUBFOLDER
+        string $srcFolder = DoctrineStaticMeta::DEFAULT_SRC_SUBFOLDER
     ): string {
         $this->assertNotCompound($ownedEntityFqn);
         try {
@@ -834,7 +833,7 @@ class NamespaceHelper
                 $projectRootNamespace,
                 $interfaceSubDirectories
             );
-            $required                = \ts\stringContains($hasType, RelationsGenerator::PREFIX_REQUIRED)
+            $required                = \ts\stringContains($hasType, RelationshipHelper::PREFIX_REQUIRED)
                 ? 'Required'
                 : '';
             $owningInterfaceFqn      .= '\\' .

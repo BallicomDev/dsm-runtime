@@ -1,24 +1,33 @@
 {
   "name": "lts/dsm-runtime",
   "require": {
-    "php": "^8.0",
+    "php": "^8.1",
     "ext-json": "*",
     "ext-mysqli": "*",
     "ext-pdo": "*",
-    "doctrine/orm": "^2.9.3",
+    "doctrine/data-fixtures": "^1.5",
     "doctrine/dbal": "^2.13.2",
     "doctrine/migrations": "^3.1.4",
-    "doctrine/data-fixtures": "^1.5",
-    "symfony/console": "^5.3.2",
-    "symfony/filesystem": "^5.3.0",
-    "symfony/dependency-injection": "^5.3.2",
-    "symfony/intl": "^5.3.0",
-    "symfony/config": "^5.3.2",
-    "symfony/validator": "^5.3.2",
-    "moneyphp/money": "^3.3.1",
+    "doctrine/orm": "^2.9.3",
     "edmondscommerce/typesafe-functions": "dev-PHP8@dev",
+    "moneyphp/money": "^3.3.1",
     "ramsey/uuid-doctrine": "^1.6",
-    "symfony/cache": "^5.3"
+    "symfony/cache": "^5.3",
+    "symfony/config": "^5.3.2",
+    "symfony/console": "^5.3.2",
+    "symfony/dependency-injection": "^5.3.2",
+    "symfony/filesystem": "^5.3.0",
+    "symfony/intl": "^5.3.0",
+    "symfony/validator": "^5.3.2",
+    "ext-filter": "*",
+    "ramsey/uuid": "^4.4",
+    "fakerphp/faker": "^1.20",
+    "doctrine/common": "^3.4",
+    "doctrine/persistence": "^3.0",
+    "doctrine/inflector": "^2.0"
+  },
+  "require-dev": {
+    "lts/php-qa-ci": "dev-master@dev"
   },
   "autoload": {
     "psr-4": {

@@ -6,7 +6,7 @@ namespace LTS\DsmRuntime\Entity\Testing\EntityGenerator;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta;
 use RuntimeException;
 

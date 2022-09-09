@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LTS\DsmRuntime\Entity\Testing\EntityGenerator;
 
-use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\Helper\NamespaceHelper;
 use LTS\DsmRuntime\DoctrineStaticMeta;
 use LTS\DsmRuntime\Entity\Interfaces\DataTransferObjectInterface;
 
