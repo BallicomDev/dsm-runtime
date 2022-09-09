@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EdmondsCommerce\DoctrineStaticMeta;
+namespace LTS\DsmRuntime;
 
-use EdmondsCommerce\DoctrineStaticMeta\Exception\ConfigException;
+use LTS\DsmRuntime\Exception\ConfigException;
 
 /**
  * Class SimpleEnv
@@ -15,7 +15,7 @@ use EdmondsCommerce\DoctrineStaticMeta\Exception\ConfigException;
  *
  * For a more fully featured library, see https://github.com/vlucas/phpdotenv
  *
- * @package EdmondsCommerce\DoctrineStaticMeta
+ * @package LTS\DsmRuntime
  * @SuppressWarnings(PHPMD.Superglobals)
  */
 class SimpleEnv

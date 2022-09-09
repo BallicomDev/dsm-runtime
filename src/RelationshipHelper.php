@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EdmondsCommerce\DoctrineStaticMeta;
+namespace LTS\DsmRuntime;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use InvalidArgumentException;

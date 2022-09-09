@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace EdmondsCommerce\DoctrineStaticMeta;
+namespace LTS\DsmRuntime;
 
 use Composer\Autoload\ClassLoader;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
-use EdmondsCommerce\DoctrineStaticMeta\CodeGeneration\NamespaceHelper;
-use EdmondsCommerce\DoctrineStaticMeta\CodeGeneration\TypeHelper;
-use EdmondsCommerce\DoctrineStaticMeta\Exception\ConfigException;
-use EdmondsCommerce\DoctrineStaticMeta\Exception\DoctrineStaticMetaException;
+use LTS\DsmRuntime\CodeGeneration\NamespaceHelper;
+use LTS\DsmRuntime\CodeGeneration\TypeHelper;
+use LTS\DsmRuntime\Exception\ConfigException;
+use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
 use Exception;
 use RuntimeException;
 use ts\Reflection\ReflectionClass;
@@ -23,7 +23,7 @@ use function is_object;
 /**
  * Class Config
  *
- * @package EdmondsCommerce\DoctrineStaticMeta
+ * @package LTS\DsmRuntime
  * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
  */
 class Config implements ConfigInterface

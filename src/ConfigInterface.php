@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EdmondsCommerce\DoctrineStaticMeta;
+namespace LTS\DsmRuntime;
 
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\Mapping\NamingStrategy;

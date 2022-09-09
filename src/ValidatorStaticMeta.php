@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EdmondsCommerce\DoctrineStaticMeta;
+namespace LTS\DsmRuntime;
 
-use EdmondsCommerce\DoctrineStaticMeta\Entity\Interfaces\ValidatedEntityInterface;
-use EdmondsCommerce\DoctrineStaticMeta\Exception\DoctrineStaticMetaException;
+use LTS\DsmRuntime\Entity\Interfaces\ValidatedEntityInterface;
+use LTS\DsmRuntime\Exception\DoctrineStaticMetaException;
 use Exception;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use ts\Reflection\ReflectionMethod;
