@@ -124,7 +124,7 @@ trait AlwaysValidTrait
     {
         if (!$this->entityDataValidator instanceof EntityDataValidatorInterface) {
             throw new RuntimeException(
-                'You must call injectDataValidator before being able to update an Entity'
+                'You must call injectEntityDataValidator before being able to update an Entity'
             );
         }
 

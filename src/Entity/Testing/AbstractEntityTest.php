@@ -174,7 +174,7 @@ abstract class AbstractEntityTest extends TestCase implements EntityTestInterfac
      */
     public function weCanGenerateANewEntityInstance(array $fixtureEntities): EntityInterface
     {
-        $generated = current($fixtureEntities);
+        $generated = $fixtureEntities[array_key_last($fixtureEntities)];
         self::assertInstanceOf(static::$testedEntityFqn, $generated);
 
         return $generated;
