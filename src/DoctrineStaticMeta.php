@@ -242,7 +242,7 @@ class DoctrineStaticMeta
     }
 
     /**
-     * Setting the change policy to be Notify - best performance
+     * Setting the change policy to be Deferred Explicit, no longer Notify
      *
      * @see http://doctrine-orm.readthedocs.io/en/latest/reference/change-tracking-policies.html
      *
@@ -250,7 +250,8 @@ class DoctrineStaticMeta
      */
     public function setChangeTrackingPolicy(ClassMetadataBuilder $builder): void
     {
-        $builder->setChangeTrackingPolicyNotify();
+        //$builder->setChangeTrackingPolicyNotify();
+        $builder->setChangeTrackingPolicyDeferredExplicit();
     }
 
     private function setCustomRepositoryClass(ClassMetadataBuilder $builder): void
